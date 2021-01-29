@@ -5,14 +5,12 @@ import {render} from "react-dom";
 
 const Timer = () => {
     const [second, setSecond] = useState("00");
-    const [minute, setMinute] = useState("00");
+    const [minute, setMinute] = useState("25");
     const [isActive, setIsActive] = useState(false);
-    const [counter, setCounter] = useState(0);
+    const [counter, setCounter] = useState(1500);
 
     useEffect(() => {
-        //ca c pour que ca défile en secondes
         let intervalId;
-
         if (isActive) {
             intervalId = setInterval(() => {
                 const secondCounter = counter % 60;
@@ -30,20 +28,18 @@ const Timer = () => {
                 setSecond(computedSecond);
                 setMinute(computedMinute);
 
-                const newCount = counter + 1;
-
+                const newCount = counter - 1;
                 setCounter(newCount);
             }, 1000);
         }
-
         return () => clearInterval(intervalId);
     }, [isActive, counter]); //we add the isActive and counter state to the dependency array. This ensures that the effect only runs when either of them changes.
 
     function Reset() {
         setIsActive(false);
-        setCounter(0);
+        setCounter(1500);
         setSecond("00");
-        setMinute("00");
+        setMinute("25");
     }
 
     return (
@@ -59,7 +55,16 @@ const Timer = () => {
             </div>
 
             <div id-={"buttons"}>
-                {/* <button className="minus"></button>  */}
+                <button
+                    className={"minus"}
+                    onClick={() => {
+                        if (!isActive) {
+                            const counterMinus = counter - 60;
+                            setCounter(counterMinus);
+                        }
+                    }}>
+                    {"-"}
+                </button>
 
                 <button className={"reset"} onClick={Reset}>
                     {"Reset"}
@@ -71,7 +76,16 @@ const Timer = () => {
                     {isActive ? "Pause" : "Start"}
                 </button>
 
-                {/* <button className="plus"></button> */}
+                <button
+                    onClick={() => {
+                        if (!isActive) {
+                            const counterPlus = counter + 60;
+                            setCounter(counterPlus);
+                        }
+                    }}
+                    className={"plus"}>
+                    {"+"}
+                </button>
             </div>
         </div>
     );
