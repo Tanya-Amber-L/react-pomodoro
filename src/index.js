@@ -1,5 +1,3 @@
-// console.log("test");
-
 import React, {useState, useEffect} from "react";
 import {render} from "react-dom";
 
@@ -61,6 +59,13 @@ const Timer = () => {
                         if (!isActive) {
                             const counterMinus = counter - 60;
                             setCounter(counterMinus);
+
+                            const minutesMinus = Number(minute) - 1;
+                            const computedMinuteMinus =
+                                String(minutesMinus).length === 1
+                                    ? `0${minutesMinus}`
+                                    : minutesMinus;
+                            setMinute(computedMinuteMinus);
                         }
                     }}>
                     {"-"}
@@ -81,6 +86,13 @@ const Timer = () => {
                         if (!isActive) {
                             const counterPlus = counter + 60;
                             setCounter(counterPlus);
+
+                            const minutesPlus = Number(minute) + 1;
+                            const computedMinutePlus =
+                                String(minutesPlus).length === 1
+                                    ? `0${minutesPlus}`
+                                    : minutesPlus;
+                            setMinute(computedMinutePlus);
                         }
                     }}
                     className={"plus"}>
